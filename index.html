@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BRX Bet - Cassino Online</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- ========== TELA 1: VERIFICAÇÃO DE IDADE ========== -->
+    <div id="age-screen" class="screen">
+        <div class="age-container">
+            <div class="age-logo">
+                <span class="logo-brx">BRX</span><span class="logo-bet">.BET</span>
+            </div>
+            <div class="age-box">
+                <h2>Verificação de Idade</h2>
+                <p class="age-text">Este site contém conteúdo destinado apenas a maiores de 18 anos.</p>
+                <div class="age-buttons">
+                    <button class="btn-age-yes" onclick="confirmAge(true)">
+                        <i class="fas fa-check"></i> Tenho 18 anos ou mais
+                    </button>
+                    <button class="btn-age-no" onclick="confirmAge(false)">
+                        <i class="fas fa-times"></i> Tenho menos de 18 anos
+                    </button>
+                </div>
+                <p class="age-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Jogue com responsabilidade. O jogo pode causar vício.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TELA 2: CADASTRO ========== -->
+    <div id="register-screen" class="screen" style="display:none;">
+        <div class="register-container">
+            <div class="register-logo">
+                <span class="logo-brx">BRX</span><span class="logo-bet">.BET</span>
+            </div>
+            <div class="register-box">
+                <h2>Criar Conta</h2>
+                <p class="register-subtitle">Gire a roleta e ganhe até <span class="highlight">R$ 10.000</span>!</p>
+                <form id="register-form" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Nome de Usuário</label>
+                        <input type="text" id="reg-username" required placeholder="Digite seu nome de usuário" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> E-mail</label>
+                        <input type="email" id="reg-email" required placeholder="seu@email.com" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Senha</label>
+                        <input type="password" id="reg-password" required placeholder="Crie uma senha forte" minlength="6">
+                    </div>
+                    <button type="submit" class="btn-register">
+                        <i class="fas fa-gift"></i> CRIAR CONTA E GANHAR BÔNUS
+                    </button>
+                </form>
+                <p class="terms-text">
+                    Ao criar conta, você concorda com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TELA 3: ROLETA ========== -->
+    <div id="roulette-screen" class="screen" style="display:none;">
+        <div class="roulette-bg">
+            <img src="images/roleta-bg.jpg" alt="Background">
+        </div>
+        <div class="roulette-overlay"></div>
+        <div class="roulette-content">
+            <h1 class="roulette-title">GIRE E GANHE!</h1>
+            <p class="roulette-subtitle">Prêmio garantido de até R$ 10.000</p>
+            
+            <div class="wheel-wrapper">
+                <div class="wheel-pointer"></div>
+                <canvas id="roulette-wheel" width="350" height="350"></canvas>
+                <button id="spin-btn" class="spin-btn" onclick="spinWheel()">
+                    <span class="spin-text">GIRAR</span>
+                </button>
+            </div>
+            
+            <p class="roulette-hint">Clique no botão para girar a roleta!</p>
+        </div>
+    </div>
+
+    <!-- ========== POPUP DE VITÓRIA ========== -->
+    <div id="win-popup" class="popup" style="display:none;">
+        <div class="popup-overlay"></div>
+        <div class="win-box">
+            <div class="win-confetti" id="confetti-container"></div>
+            <div class="win-icon">🎉</div>
+            <h2>PARABÉNS!</h2>
+            <p class="win-text">Você ganhou</p>
+            <p class="win-amount">R$ 10.000,00</p>
+            <p class="win-bonus">em bônus de boas-vindas!</p>
+            <button class="btn-win" onclick="goToCasino()">
+                <i class="fas fa-play"></i> ACEITAR E JOGAR
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== TELA 4: CASSINO ========== -->
+    <div id="casino-screen" class="screen" style="display:none;">
+        <!-- Header -->
+        <header class="casino-header">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-brx">BRX</span><span class="logo-bet">.BET</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <nav class="main-nav">
+                    <a href="#" class="nav-link active" onclick="showSection('slots', this)">
+                        <i class="fas fa-slot-machine"></i> Slots
+                    </a>
+                    <a href="#" class="nav-link" onclick="showSection('cassino', this)">
+                        <i class="fas fa-dice"></i> Cassino
+                    </a>
+                    <a href="#" class="nav-link" onclick="showSection('aovivo', this)">
+                        <i class="fas fa-video"></i> Ao Vivo
+                    </a>
+                    <a href="#" class="nav-link" onclick="showSection('esportes', this)">
+                        <i class="fas fa-futbol"></i> Esportes
+                    </a>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="balance-box" onclick="showWithdraw()">
+                    <span class="balance-label">Saldo</span>
+                    <span class="balance-amount" id="balance-display">R$ 10.000,00</span>
+                </div>
+                <button class="btn-deposit" onclick="showDeposit()">
+                    <i class="fas fa-plus"></i> DEPOSITAR
+                </button>
+                <div class="user-menu" id="user-menu" onclick="toggleUserMenu()">
+                    <i class="fas fa-user"></i>
+                    <span id="username-display"></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Banner -->
+        <div class="casino-banner">
+            <div class="banner-content">
+                <h2>BÔNUS DE BOAS-VINDAS</h2>
+                <p>100% até R$ 5.000 no primeiro depósito</p>
+                <button class="btn-banner" onclick="showDeposit()">DEPOSITAR AGORA</button>
+            </div>
+        </div>
+
+        <!-- Jogos -->
+        <div class="games-container">
+            <div class="section-header">
+                <h3><i class="fas fa-fire"></i> Jogos Populares</h3>
+            </div>
+            <div class="games-grid" id="games-grid">
+                <!-- Jogos gerados via JS -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="casino-footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-brx">BRX</span><span class="logo-bet">.BET</span>
+                </div>
+                <p class="footer-text">© 2024 BRX Bet. Todos os direitos reservados.</p>
+                <div class="footer-links">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Jogo Responsável</a>
+                </div>
+                <p class="footer-responsible">+18 | Jogue com responsabilidade</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ========== MODAL DE DEPÓSITO ========== -->
+    <div id="deposit-modal" class="modal" style="display:none;">
+        <div class="modal-overlay" onclick="closeDeposit()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-wallet"></i> Faça seu Depósito</h2>
+                <button class="btn-close" onclick="closeDeposit()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="deposit-info">Escolha o valor do depósito:</p>
+                <div class="deposit-grid">
+                    <button class="deposit-btn" data-value="20" onclick="selectDeposit(20)">
+                        <span class="deposit-value">R$ 20,00</span>
+                    </button>
+                    <button class="deposit-btn" data-value="50" onclick="selectDeposit(50)">
+                        <span class="deposit-value">R$ 50,00</span>
+                    </button>
+                    <button class="deposit-btn" data-value="75" onclick="selectDeposit(75)">
+                        <span class="deposit-value">R$ 75,00</span>
+                    </button>
+                    <button class="deposit-btn" data-value="100" onclick="selectDeposit(100)">
+                        <span class="deposit-value">R$ 100,00</span>
+                    </button>
+                    <button class="deposit-btn" data-value="200" onclick="selectDeposit(200)">
+                        <span class="deposit-value">R$ 200,00</span>
+                    </button>
+                    <button class="deposit-btn" data-value="400" onclick="selectDeposit(400)">
+                        <span class="deposit-value">R$ 400,00</span>
+                    </button>
+                </div>
+                <div class="deposit-custom">
+                    <label>Outro valor:</label>
+                    <div class="custom-input-wrapper">
+                        <span class="currency">R$</span>
+                        <input type="number" id="custom-deposit" placeholder="Digite o valor" min="20">
+                    </div>
+                </div>
+                <button class="btn-confirm-deposit" onclick="confirmDeposit()">
+                    <i class="fas fa-qrcode"></i> IR PARA PAGAMENTO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE PAGAMENTO PIX ========== -->
+    <div id="pix-modal" class="modal" style="display:none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content pix-content">
+            <div class="pix-header">
+                <div class="pix-loader">
+                    <div class="spinner"></div>
+                </div>
+                <h2>Aguardando Pagamento</h2>
+            </div>
+            <div class="pix-body">
+                <p class="pix-text">Escaneie o QR Code ou copie a chave PIX</p>
+                <div class="pix-qr">
+                    <div class="qr-placeholder">
+                        <i class="fas fa-qrcode"></i>
+                        <span>QR CODE PIX</span>
+                    </div>
+                </div>
+                <div class="pix-key">
+                    <label>Chave PIX:</label>
+                    <div class="key-box">
+                        <span id="pix-code">00020126580014BR.GOV.BCB.PIX0136...</span>
+                        <button class="btn-copy" onclick="copyPixKey()">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="pix-amount" id="pix-amount">R$ 0,00</p>
+                <p class="pix-wait">Aguardando confirmação do pagamento...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE PAGAMENTO PROCESSANDO ========== -->
+    <div id="processing-modal" class="modal" style="display:none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content processing-content">
+            <div class="processing-icon">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <h2>Processando Pagamento</h2>
+            <p class="processing-text">Estamos verificando seu pagamento...</p>
+            <p class="processing-amount" id="processing-amount">R$ 0,00</p>
+            <p class="processing-wait">Isso pode levar alguns instantes</p>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE PAGAMENTO SUCESSO ========== -->
+    <div id="success-modal" class="modal" style="display:none;">
+        <div class="modal-overlay" onclick="closeSuccess()"></div>
+        <div class="modal-content success-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Pagamento Confirmado!</h2>
+            <p class="success-text">Seu depósito foi processado com sucesso.</p>
+            <p class="success-amount" id="success-amount">R$ 0,00</p>
+            <p class="success-bonus" id="success-bonus"></p>
+            <button class="btn-success" onclick="closeSuccess()">
+                <i class="fas fa-play"></i> COMEÇAR A JOGAR
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE BLOQUEIO - PRECISA DEPOSITAR ========== -->
+    <div id="block-deposit-modal" class="modal" style="display:none;">
+        <div class="modal-overlay" onclick="closeBlockDeposit()"></div>
+        <div class="modal-content block-content">
+            <div class="block-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2>Saldo Bloqueado</h2>
+            <p class="block-text">Para jogar ou sacar seu bônus de R$ 10.000, você precisa fazer um depósito primeiro.</p>
+            <div class="block-features">
+                <div class="feature">
+                    <i class="fas fa-bolt"></i>
+                    <span>Depósito instantâneo</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Seguro</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-gift"></i>
+                    <span>Bônus de boas-vindas</span>
+                </div>
+            </div>
+            <button class="btn-block-action" onclick="closeBlockDeposit(); showDeposit();">
+                <i class="fas fa-wallet"></i> FAZER DEPÓSITO
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE SAQUE ========== -->
+    <div id="withdraw-modal" class="modal" style="display:none;">
+        <div class="modal-overlay" onclick="closeWithdraw()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-money-bill-wave"></i> Sacar</h2>
+                <button class="btn-close" onclick="closeWithdraw()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="withdraw-balance">
+                    <span class="label">Saldo disponível:</span>
+                    <span class="value" id="withdraw-balance">R$ 10.000,00</span>
+                </div>
+                <div id="withdraw-block-message" class="withdraw-block">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Para realizar saques, é necessário ter um saldo superior a R$ 10.100,00 (incluindo o bônus).</p>
+                    <p class="sub">Faça um depósito de pelo menos R$ 100,00 para liberar o saque.</p>
+                    <button class="btn-deposit-small" onclick="closeWithdraw(); showDeposit();">
+                        DEPOSITAR R$ 100
+                    </button>
+                </div>
+                <div id="withdraw-form" class="withdraw-form" style="display:none;">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Nome Completo</label>
+                        <input type="text" id="withdraw-name" placeholder="Digite seu nome completo">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-id-card"></i> CPF</label>
+                        <input type="text" id="withdraw-cpf" placeholder="000.000.000-00" maxlength="14">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-key"></i> Chave PIX</label>
+                        <input type="text" id="withdraw-pix" placeholder="CPF, E-mail, Telefone ou Chave Aleatória">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-coins"></i> Valor do Saque</label>
+                        <div class="custom-input-wrapper">
+                            <span class="currency">R$</span>
+                            <input type="number" id="withdraw-amount" placeholder="0,00">
+                        </div>
+                    </div>
+                    <button class="btn-withdraw-confirm" onclick="confirmWithdraw()">
+                        <i class="fas fa-paper-plane"></i> CONFIRMAR SAQUE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE SAQUE EM ANDAMENTO ========== -->
+    <div id="withdraw-processing-modal" class="modal" style="display:none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content processing-content">
+            <div class="processing-icon">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <h2>Processando Saque</h2>
+            <p class="processing-text">Estamos processando sua solicitação...</p>
+            <p class="processing-amount" id="withdraw-processing-amount">R$ 0,00</p>
+            <p class="processing-wait">O valor será creditado em até 24 horas</p>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE SAQUE SUCESSO ========== -->
+    <div id="withdraw-success-modal" class="modal" style="display:none;">
+        <div class="modal-overlay" onclick="closeWithdrawSuccess()"></div>
+        <div class="modal-content success-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Saque Solicitado!</h2>
+            <p class="success-text">Sua solicitação de saque foi enviada com sucesso.</p>
+            <p class="success-amount" id="withdraw-success-amount">R$ 0,00</p>
+            <p class="success-bonus">O valor será creditado em sua conta PIX em até 24 horas.</p>
+            <button class="btn-success" onclick="closeWithdrawSuccess()">
+                <i class="fas fa-check"></i> ENTENDI
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE BLOQUEIO - AGUARDANDO SAQUE ========== -->
+    <div id="withdraw-block-modal" class="modal" style="display:none;">
+        <div class="modal-overlay" onclick="closeWithdrawBlock()"></div>
+        <div class="modal-content block-content">
+            <div class="block-icon warning">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h2>Saque em Andamento</h2>
+            <p class="block-text">Você tem um saque sendo processado. Para evitar bloqueios na conta, aguarde o processamento antes de jogar.</p>
+            <p class="block-sub">O valor será creditado em até 24 horas.</p>
+            <button class="btn-block-action" onclick="closeWithdrawBlock()">
+                <i class="fas fa-check"></i> ENTENDI
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== MENU DO USUÁRIO ========== -->
+    <div id="user-menu-dropdown" class="user-dropdown" style="display:none;">
+        <div class="dropdown-item" onclick="showWithdraw()">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>Sacar</span>
+        </div>
+        <div class="dropdown-item" onclick="showDeposit()">
+            <i class="fas fa-wallet"></i>
+            <span>Depositar</span>
+        </div>
+        <div class="dropdown-item" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sair</span>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
