@@ -476,12 +476,11 @@ function confirmDeposit()  {
         return;
     }
 
-    // Converte para centavos
     const amountInCents = Math.round(amount * 100);
 
-    // Redireciona com valor automático
+    // IMPORTANTE: retorna aqui para impedir qualquer código abaixo
     window.location.href = "https://multi.paradisepags.com/p/pix_1f05b1ccd5e7?value=" + amountInCents;
-
+    return;
 }
 
 function showDepositSuccess(amount) {
