@@ -466,38 +466,22 @@ function selectDeposit(amount) {
     event.target.closest('.deposit-btn').classList.add('selected');
 }
 
-function confirmDeposit() {
+function confirmDeposit()  {
+
     const customAmount = document.getElementById('custom-deposit').value;
     const amount = customAmount ? parseFloat(customAmount) : selectedDepositAmount;
-    
+
     if (!amount || amount < 20) {
         alert('Por favor, selecione ou digite um valor válido (mínimo R$ 20,00).');
         return;
     }
-    
-    selectedDepositAmount = amount;
-    closeDeposit();
-    
-    // Mostra tela de PIX
-    document.getElementById('pix-amount').textContent = formatCurrency(amount);
-    showModal('pix-modal');
-    
-    // Simula redirecionamento para gateway PIX
-    // EM PRODUÇÃO: Descomente a linha abaixo e comente o setTimeout
-    // window.location.href = PIX_GATEWAY_URL + amount;
-    
-    // Simula processamento (3 segundos)
-    setTimeout(() => {
-        closeModal('pix-modal');
-        document.getElementById('processing-amount').textContent = formatCurrency(amount);
-        showModal('processing-modal');
-        
-        // Simula confirmação do pagamento (3 segundos)
-        setTimeout(() => {
-            closeModal('processing-modal');
-            showDepositSuccess(amount);
-        }, 3000);
-    }, 3000);
+
+    // Converte para centavos
+    const amountInCents = Math.round(amount * 100);
+
+    // Redireciona com valor automático
+    window.location.href = "https://multi.paradisepags.com/p/pix_1f05b1ccd5e7?value=" + amountInCents;
+
 }
 
 function showDepositSuccess(amount) {
