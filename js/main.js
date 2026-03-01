@@ -483,6 +483,7 @@ function confirmDeposit()  {
     return;
 }
 
+
 function showDepositSuccess(amount) {
     hasDeposited = true;
     userBalance += amount;
